@@ -38,7 +38,7 @@ public class Dish {
         this.name = name;
     }
 
-    public String getcategory() {
+    public String getCategory() {
         return category;
     }
 
