@@ -32,7 +32,8 @@ public class DishController {
 //    {
 //        "id": 3,
 //        "name": "Ramen",
-//        "category": "Soup"
+//        "category": "Soup",
+//        "price": 5.59
 //    }
     @PostMapping
     public Dish save(@RequestBody Dish dish) {
@@ -47,6 +48,7 @@ public class DishController {
         Dish oldDish = findOne(id);
         oldDish.setName(dish.getName());
         oldDish.setcategory(dish.getCategory());
+        oldDish.setPrice(dish.getPrice());
 
         return dishRepository.save(dish);
     }
@@ -62,6 +64,8 @@ public class DishController {
             throw new ResponseStatusException(BAD_REQUEST, "Name is null");
         } if(dish.getCategory() == null){
             throw new ResponseStatusException(BAD_REQUEST, "Category is null");
+        } if(dish.getPrice() == 0.0f){
+            throw new ResponseStatusException(BAD_REQUEST, "Price is null");
         }
     }
 

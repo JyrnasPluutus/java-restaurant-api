@@ -17,8 +17,8 @@ public class restaurantApiApplication {
     @Bean
     public CommandLineRunner demo(DishRepository repo) {
         return (args) -> {
-            repo.save(new Dish("Ramen", "Soup"));
-            repo.save(new Dish("Kimchi", "Side dish"));
+            repo.save(new Dish("Ramen", "Soup", 4.19));
+            repo.save(new Dish("Kimchi", "Side dish", 3.49));
         };
     }
 

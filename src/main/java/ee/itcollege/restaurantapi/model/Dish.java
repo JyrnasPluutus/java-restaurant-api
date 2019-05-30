@@ -13,13 +13,15 @@ public class Dish {
     private long id;
     private String name;
     private String category;
+    private double price;
 
     public Dish() {
     }
 
-    public Dish(String name, String category) {
+    public Dish(String name, String category, double price) {
         this.name = name;
         this.category = category;
+        this.price = price;
     }
 
     public Long getId() {
@@ -44,5 +46,13 @@ public class Dish {
 
     public void setcategory(String category) {
         this.category = category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
