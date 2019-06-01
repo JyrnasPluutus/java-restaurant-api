@@ -30,6 +30,7 @@ public class Order {
         this.userObj = user;
         this.dishes = dishes;
         this.comment = comment;
+        updateTotal_price();
     }
 
     public Long getId() {
@@ -46,6 +47,7 @@ public class Order {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
+        updateTotal_price();
     }
 
     public String getComment() {
@@ -70,5 +72,12 @@ public class Order {
 
     public void setTotal_price(Double total_price) {
         this.total_price = total_price;
+    }
+
+    private void updateTotal_price() {
+        this.total_price = 0.0d;
+        for (Dish dish : this.dishes) {
+            this.total_price += dish.getPrice();
+        }
     }
 }
