@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
     List<Dish> findByGlutenFreeIsTrue();
+
     List<Dish> findByVeganIsTrue();
+
     List<Dish> findByVegetarianIsTrue();
 }

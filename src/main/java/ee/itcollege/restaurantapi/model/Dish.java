@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.beans.IntrospectionException;
 
 @Entity
 public class Dish {
@@ -36,6 +35,7 @@ public class Dish {
         this.category = category;
         this.price = price;
     }
+
     public Dish(String name, String category, double price, boolean vegan, boolean vegetarian, boolean gluten_free) {
         this(name, category, price);
         this.vegan = vegan;
@@ -43,18 +43,44 @@ public class Dish {
         this.glutenFree = gluten_free;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getName() { return name; }
-    public String getCategory() { return category; }
-    public double getPrice() { return price; }
-    public boolean isVegan() { return vegan; }
-    public boolean isVegetarian() { return vegetarian; }
-    public boolean isGlutenFree() { return glutenFree; }
-    public double getRating() { return rating; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public boolean isVegan() {
+        return vegan;
+    }
+
+    public boolean isVegetarian() {
+        return vegetarian;
+    }
+
+    public boolean isGlutenFree() {
+        return glutenFree;
+    }
+
+    public double getRating() {
+        return rating;
+    }
 
     public void addRating(byte rating) {
-        if(!(rating >= 0 && rating <= 5))
+        if (!(rating >= 0 && rating <= 5))
             return;
         this.n_ratings++;
         this.sum_ratings += rating;
