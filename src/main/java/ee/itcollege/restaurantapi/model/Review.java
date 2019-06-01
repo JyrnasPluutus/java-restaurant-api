@@ -1,5 +1,6 @@
 package ee.itcollege.restaurantapi.model;
 
+import org.springframework.lang.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,15 +11,16 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String review;
+    private String comment;
     private Long dishId;
+    @Nullable
     private Integer rating; // optional
 
     public Review() {
     }
 
-    public Review(String review, Long dishId, Integer rating) {
-        this.review = review;
+    public Review(String comment, Long dishId, Integer rating) {
+        this.comment = comment;
         this.dishId = dishId;
         this.rating = rating;
     }
@@ -27,8 +29,8 @@ public class Review {
         return this.dishId;
     }
 
-    public Long getId() {
-        return id;
+    public String getComment() {
+        return comment;
     }
 
     public Integer getRating() {

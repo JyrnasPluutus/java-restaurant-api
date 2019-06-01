@@ -1,7 +1,6 @@
 package ee.itcollege.restaurantapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -17,6 +16,7 @@ public class Order {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User userObj;
+    @NotNull
     @Column
     @ElementCollection
     private List<Dish> dishes;

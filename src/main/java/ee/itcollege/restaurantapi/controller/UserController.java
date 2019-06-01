@@ -26,10 +26,13 @@ public class UserController {
     @GetMapping("{id}")
     public User findOne(@PathVariable Long id) {
         return userRepository.findById(id)
-                .orElseThrow(exceptionSupplier());
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist"));
     }
 
-    private Supplier<ResponseStatusException> exceptionSupplier() {
-        return () -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist");
+    @PostMapping
+    public User registerUser(@RequestBody User user) {
+        if(user.getUserName() == null)
+            throw new ResponseStatusException(BAD_REQUEST, "No username");
+        return userRepository.save(user);
     }
 }

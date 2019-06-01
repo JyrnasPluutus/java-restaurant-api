@@ -31,17 +31,19 @@ public class ReviewController {
     @PostMapping
     public Review submitReview(@RequestBody Review review) {
         validateReview(review);
-        reviewRepository.save(review);
         if(review.getRating() != null) {
             PostRating rating = new PostRating(review.getDishId(), (double) review.getRating());
             dishController.rate_dish(rating);
         }
+        reviewRepository.save(review);
         return review;
     }
 
     private void validateReview(Review review) {
         if(review.getDishId() == null)
             throw new ResponseStatusException(BAD_REQUEST, "Dish ID is null");
+        if(review.getComment() == null)
+            throw new ResponseStatusException(BAD_REQUEST, "Comment value is null");
         dishController.findOne(review.getDishId()); // return value ignored, throws exception if no dish is found
     }
 }
