@@ -19,6 +19,7 @@ public class restaurantApiApplication {
         return (args) -> {
             repo.save(new Dish("Ramen", "Soup", 4.19));
             repo.save(new Dish("Kimchi", "Side dish", 3.49));
+            repo.save(new Dish("Gluten-free cookie", "Snack", 1.49, true, true, true));
         };
     }
 

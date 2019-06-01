@@ -1,6 +1,7 @@
 package ee.itcollege.restaurantapi.controller;
 
 import ee.itcollege.restaurantapi.model.Dish;
+import ee.itcollege.restaurantapi.model.PostRating;
 import ee.itcollege.restaurantapi.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,32 +24,27 @@ public class DishController {
         return dishRepository.findAll();
     }
 
+    @GetMapping("/vegan")
+    public List<Dish> findVegan() {
+        return dishRepository.findByVeganIsTrue();
+    }
+
     @GetMapping("{id}")
     public Dish findOne(@PathVariable Long id) {
         return dishRepository.findById(id)
                 .orElseThrow(exceptionSupplier());
     }
-
-//    {
-//        "id": 3,
-//        "name": "Ramen",
-//        "category": "Soup",
-//        "price": 5.59
-//    }
     @PostMapping
     public Dish save(@RequestBody Dish dish) {
-        validate(dish);
-
+        validate_dish(dish);
         return dishRepository.save(dish);
     }
 
     @PutMapping("{id}")
     public Dish update(@RequestBody Dish dish, @PathVariable Long id) {
-        validate(dish);
-        Dish oldDish = findOne(id);
-        oldDish.setName(dish.getName());
-        oldDish.setcategory(dish.getCategory());
-        oldDish.setPrice(dish.getPrice());
+        validate_dish(dish);
+        findOne(id); // result unused, generates exception if missing from DB
+        dish.setId(id);
 
         return dishRepository.save(dish);
     }
@@ -59,17 +55,30 @@ public class DishController {
         dishRepository.delete(dish);
     }
 
-    private void validate(@RequestBody Dish dish) {
+    private void validate_dish(Dish dish) {
         if(dish.getName() == null){
             throw new ResponseStatusException(BAD_REQUEST, "Name is null");
         } if(dish.getCategory() == null){
             throw new ResponseStatusException(BAD_REQUEST, "Category is null");
-        } if(dish.getPrice() == 0.0f){
+        } if(dish.getPrice() == 0.0d){
             throw new ResponseStatusException(BAD_REQUEST, "Price is null");
         }
     }
 
+    @PostMapping("/rate")
+    public PostRating rate_dish(@RequestBody PostRating rating) {
+        if(rating.id == null)
+            throw new ResponseStatusException(BAD_REQUEST, "ID is null");
+        if(!(rating.rating >= 0 && rating.rating <= 5))
+            throw new ResponseStatusException(BAD_REQUEST, "Invalid rating");
+        Dish dish = dishRepository.getOne(rating.id);
+        dish.addRating((byte) rating.rating);
+        dishRepository.save(dish);
+        rating.rating = dish.getRating();
+        return rating;
+    }
+
     private Supplier<ResponseStatusException> exceptionSupplier() {
-        return () -> new ResponseStatusException(BAD_REQUEST, "Id does'nt exist");
+        return () -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist");
     }
 }
