@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
@@ -26,7 +25,7 @@ public class UserController {
     @GetMapping("{id}")
     public User findOne(@PathVariable Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist"));
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "User id doesn't exist"));
     }
 
     @PostMapping

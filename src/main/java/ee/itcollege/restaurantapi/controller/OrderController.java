@@ -31,7 +31,7 @@ public class OrderController {
     @GetMapping("{id}")
     public Order findOne(@PathVariable Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist"));
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Order id doesn't exist"));
     }
 
     @PostMapping

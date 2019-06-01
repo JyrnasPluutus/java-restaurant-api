@@ -63,7 +63,7 @@ public class DishController {
     @PostMapping("/rate")
     public PostRating rate_dish(@RequestBody PostRating rating) {
         if(rating.getDishId() == null)
-            throw new ResponseStatusException(BAD_REQUEST, "ID is null");
+            throw new ResponseStatusException(BAD_REQUEST, "Dish id doesn't exist");
         if(rating.getRating() == null || !(rating.getRating() >= 0 && rating.getRating() <= 5))
             throw new ResponseStatusException(BAD_REQUEST, "Invalid rating");
         Dish dish = dishRepository.getOne(rating.getDishId());

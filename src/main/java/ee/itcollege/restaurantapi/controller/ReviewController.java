@@ -25,7 +25,7 @@ public class ReviewController {
     @GetMapping("{id}")
     public Review findOne(@PathVariable Long id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist"));
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "Review id doesn't exist"));
     }
 
     @PostMapping
