@@ -6,9 +6,7 @@ import ee.itcollege.restaurantapi.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
-import java.util.function.Supplier;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -40,7 +38,7 @@ public class DishController {
     @GetMapping("{id}")
     public Dish findOne(@PathVariable Long id) {
         return dishRepository.findById(id)
-                .orElseThrow(exceptionSupplier());
+                .orElseThrow(() -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist"));
     }
     @PostMapping
     public Dish save(@RequestBody Dish dish) {
@@ -62,27 +60,23 @@ public class DishController {
         dishRepository.delete(dish);
     }
 
+    @PostMapping("/rate")
+    public PostRating rate_dish(@RequestBody PostRating rating) {
+        if(rating.getDishId() == null)
+            throw new ResponseStatusException(BAD_REQUEST, "ID is null");
+        if(rating.getRating() == null || !(rating.getRating() >= 0 && rating.getRating() <= 5))
+            throw new ResponseStatusException(BAD_REQUEST, "Invalid rating");
+        Dish dish = dishRepository.getOne(rating.getDishId());
+        dish.addRating(rating.getRating().intValue());
+        dishRepository.save(dish);
+        rating.setRating(dish.getRating());
+        return rating;
+    }
+
     private void validate_dish(Dish dish) {
         if (dish.getName() == null)
             throw new ResponseStatusException(BAD_REQUEST, "Name is null");
         if (dish.getCategory() == null)
             throw new ResponseStatusException(BAD_REQUEST, "Category is null");
-    }
-
-    @PostMapping("/rate")
-    public PostRating rate_dish(@RequestBody PostRating rating) {
-        if(rating.id == null)
-            throw new ResponseStatusException(BAD_REQUEST, "ID is null");
-        if(!(rating.rating >= 0 && rating.rating <= 5))
-            throw new ResponseStatusException(BAD_REQUEST, "Invalid rating");
-        Dish dish = dishRepository.getOne(rating.id);
-        dish.addRating((byte) rating.rating);
-        dishRepository.save(dish);
-        rating.rating = dish.getRating();
-        return rating;
-    }
-
-    private Supplier<ResponseStatusException> exceptionSupplier() {
-        return () -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist");
     }
 }

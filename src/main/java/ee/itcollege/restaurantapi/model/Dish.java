@@ -62,7 +62,7 @@ public class Dish {
         return rating;
     }
 
-    public void addRating(byte rating) {
+    public void addRating(int rating) {
         if (!(rating >= 0 && rating <= 5))
             return;
         this.n_ratings++;

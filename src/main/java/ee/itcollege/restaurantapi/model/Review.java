@@ -6,28 +6,32 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class PostRating {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String review;
     private Long dishId;
-    private Double rating;
-    public PostRating() {
+    private Integer rating; // optional
+
+    public Review() {
     }
-    public PostRating(Long dishId, Double rating) {
+
+    public Review(String review, Long dishId, Integer rating) {
+        this.review = review;
         this.dishId = dishId;
         this.rating = rating;
     }
 
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
     public Long getDishId() {
-        return dishId;
+        return this.dishId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getRating() {
+        return rating;
     }
 }
