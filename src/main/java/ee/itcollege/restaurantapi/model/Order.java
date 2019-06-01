@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "order_table")
 public class Order {
 
     @Id
@@ -15,13 +16,21 @@ public class Order {
     @NotNull
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
-    @NotNull
-    @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private User userObj;
+    @Column
+    @ElementCollection
     private List<Dish> dishes;
-    private List<String> comments;
+    private Double total_price;
+    private String comment;
 
+    public Order() {
+    }
+
+    public Order(User user, List<Dish> dishes, String comment) {
+        this.userObj = user;
+        this.dishes = dishes;
+        this.comment = comment;
+    }
 
     public Long getId() {
         return id;
@@ -29,14 +38,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public List<Dish> getDishes() {
@@ -47,11 +48,27 @@ public class Order {
         this.dishes = dishes;
     }
 
-    public List<String> getComments() {
-        return comments;
+    public String getComment() {
+        return comment;
     }
 
-    public void setComments(List<String> comments) {
-        this.comments = comments;
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public User getUserObj() {
+        return userObj;
+    }
+
+    public void setUserObj(User userObj) {
+        this.userObj = userObj;
+    }
+
+    public Double getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(Double total_price) {
+        this.total_price = total_price;
     }
 }
