@@ -30,6 +30,6 @@ public class UserController {
     }
 
     private Supplier<ResponseStatusException> exceptionSupplier() {
-        return () -> new ResponseStatusException(BAD_REQUEST, "Id does'nt exist");
+        return () -> new ResponseStatusException(BAD_REQUEST, "ID doesn't exist");
     }
 }

@@ -24,9 +24,17 @@ public class DishController {
         return dishRepository.findAll();
     }
 
-    @GetMapping("/vegan")
-    public List<Dish> findVegan() {
-        return dishRepository.findByVeganIsTrue();
+    @GetMapping("/special/{type}")
+    public List<Dish> findSpecial(@PathVariable String type) {
+        switch (type) {
+            case "vegan":
+                return dishRepository.findByVeganIsTrue();
+            case "vegetarian":
+                return dishRepository.findByVegetarianIsTrue();
+            case "glutenfree":
+                return dishRepository.findByGlutenFreeIsTrue();
+        }
+        throw new ResponseStatusException(BAD_REQUEST, "unknown type, known types: vegan, vegetarian, glutenfree");
     }
 
     @GetMapping("{id}")
@@ -45,7 +53,6 @@ public class DishController {
         validate_dish(dish);
         findOne(id); // result unused, generates exception if missing from DB
         dish.setId(id);
-
         return dishRepository.save(dish);
     }
 
@@ -56,13 +63,10 @@ public class DishController {
     }
 
     private void validate_dish(Dish dish) {
-        if(dish.getName() == null){
+        if (dish.getName() == null)
             throw new ResponseStatusException(BAD_REQUEST, "Name is null");
-        } if(dish.getCategory() == null){
+        if (dish.getCategory() == null)
             throw new ResponseStatusException(BAD_REQUEST, "Category is null");
-        } if(dish.getPrice() == 0.0d){
-            throw new ResponseStatusException(BAD_REQUEST, "Price is null");
-        }
     }
 
     @PostMapping("/rate")

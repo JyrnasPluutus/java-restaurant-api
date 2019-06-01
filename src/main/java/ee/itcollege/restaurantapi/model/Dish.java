@@ -26,7 +26,6 @@ public class Dish {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private long n_ratings; // simpler than an array of ratings
 
-
     public Dish() {
     }
 
@@ -43,10 +42,6 @@ public class Dish {
         this.glutenFree = gluten_free;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -61,18 +56,6 @@ public class Dish {
 
     public double getPrice() {
         return price;
-    }
-
-    public boolean isVegan() {
-        return vegan;
-    }
-
-    public boolean isVegetarian() {
-        return vegetarian;
-    }
-
-    public boolean isGlutenFree() {
-        return glutenFree;
     }
 
     public double getRating() {
