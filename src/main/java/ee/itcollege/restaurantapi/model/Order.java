@@ -1,6 +1,7 @@
 package ee.itcollege.restaurantapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Order {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User userObj;
     @NotNull
-    @Column
+    @JoinColumn
     @ElementCollection
     private List<Dish> dishes;
     private Double total_price;
@@ -79,5 +80,11 @@ public class Order {
         for (Dish dish : this.dishes) {
             this.total_price += dish.getPrice();
         }
+    }
+
+    public void addDishes(Dish dish) {
+        List<Dish> dishes = this.getDishes();
+        dishes.add(dish);
+        this.setDishes(dishes);
     }
 }
